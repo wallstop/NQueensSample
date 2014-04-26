@@ -23,7 +23,7 @@ static inline int getNumBits(int validPositions)
 {
     int ret = 0;
     for(;validPositions != 0; ++ret)
-        validPositions = (validPositions - 1) & validPositions;
+        validPositions &= (validPositions - 1);
 
     return ret;
 }
@@ -36,7 +36,7 @@ static unsigned int nQueensHelper(int allOnes, int leftDiagonals, int columns, i
     while(validPositions != 0)
     {
         const int position = getLSB(validPositions);
-        validPositions = validPositions ^ position;
+        validPositions ^= position;
         solutions += nQueensHelper(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
