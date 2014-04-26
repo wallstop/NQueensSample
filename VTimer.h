@@ -1,8 +1,5 @@
 
 #pragma once 
-//#define VTIMER_LIB  // Proper dll
-
-#define VTIMER_LIB
 
 #if defined(WIN32) || defined(_WIN32)
 

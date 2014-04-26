@@ -22,7 +22,7 @@ static inline int getLSB(int validPositions)
 static inline int getNumBits(int validPositions)
 {
     int ret = 0;
-    for(;validPositions != 0; ++ret)
+    for(; validPositions != 0; ++ret)
         validPositions &= (validPositions - 1);
 
     return ret;
@@ -58,7 +58,6 @@ static unsigned int semiParallelNQueens(int n)
     */
     std::atomic<unsigned int> result = 0;
     std::vector<std::future<unsigned int>> threadPool;
-    threadPool.reserve(getNumBits(validPositions));
     for(int i = 0; validPositions != 0; ++i)
     {
         std::packaged_task<unsigned int(int, int, int, int)> task(nQueensHelper);
@@ -68,7 +67,7 @@ static unsigned int semiParallelNQueens(int n)
         task(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
-    Concurrency::parallel_for(0u, threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
+    Concurrency::parallel_for(0u, (unsigned int)threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
     return result + ((columns == allOnes) ? 1 : 0);
 }
 
