@@ -1,7 +1,12 @@
 #ifndef VMETRICS_API
+
+#if defined _WIN32 || defined WIN32
 #define VMETRICS_API __declspec(dllexport)
 #else
 #define VMETRICS_API __declspec(dllimport)
+#endif
+#else
+#define VMETRICS_API_EXPORT 
 #endif
 
 #include <stdint.h>

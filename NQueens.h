@@ -11,12 +11,12 @@
 
 static inline int getValidPositions(int allOnes, int leftDiagonals, int columns, int rightDiagonals)
 {
-    return !(leftDiagonals | columns | rightDiagonals) & allOnes;
+    return (~(leftDiagonals | columns | rightDiagonals)) & allOnes;
 }
 
 static inline int getLSB(int validPositions)
 {
-    return (-validPositions & validPositions);
+    return ((-validPositions) & validPositions);
 }
 
 static inline int getNumBits(int validPositions)
@@ -36,7 +36,7 @@ static unsigned int nQueensHelper(int allOnes, int leftDiagonals, int columns, i
     while(validPositions != 0)
     {
         const int position = getLSB(validPositions);
-        validPositions ^= position;
+        validPositions = validPositions ^ position;
         solutions += nQueensHelper(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
@@ -68,7 +68,7 @@ static unsigned int semiParallelNQueens(int n)
         task(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
-    Concurrency::parallel_for(0, (int)threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
+    Concurrency::parallel_for(0u, threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
     return result + ((columns == allOnes) ? 1 : 0);
 }
 
