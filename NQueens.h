@@ -52,11 +52,11 @@ static unsigned int semiParallelNQueens(int n)
 
     /*
         This all super sucks, if this were an actual implementation I'd rely on TBB's nice parallel paradigms
-        and thread pools and stuff
+        and thread pools and stuff 
     */
     unsigned int result = 0;
     std::vector<std::future<unsigned int>> threadPool;
-    for(int i = 0; validPositions != 0; ++i)
+    while(validPositions != 0)
     {
         std::packaged_task<unsigned int(int, int, int, int)> task(nQueensHelper);
         const int position = getLSB(validPositions);
@@ -65,7 +65,7 @@ static unsigned int semiParallelNQueens(int n)
         task(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
-    // Here would be a nice place for a parallel summation
+    // Here would be a nice place for a parallel summation, would have to make result atomic
     for(auto& thread : threadPool)
         result += thread.get();
 
