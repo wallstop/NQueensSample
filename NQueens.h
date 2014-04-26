@@ -7,7 +7,6 @@
 #include <thread>
 #include <vector>
 #include <future>
-#include <ppl.h>
 
 static inline int getValidPositions(int allOnes, int leftDiagonals, int columns, int rightDiagonals)
 {
@@ -67,7 +66,10 @@ static unsigned int semiParallelNQueens(int n)
         task(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
-    Concurrency::parallel_for(0u, (unsigned int)threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
+    // Here would be a nice place for a parallel summation
+    for(auto& thread : threadPool)
+        result += thread.get();
+
     return result + ((columns == allOnes) ? 1 : 0);
 }
 
