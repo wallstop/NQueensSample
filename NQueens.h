@@ -56,7 +56,7 @@ static unsigned int semiParallelNQueens(int n)
         This all super sucks, if this were an actual implementation I'd rely on TBB's nice parallel paradigms
         and thread pools and stuff
     */
-    Concurrency::combinable<unsigned int> result([] { return 0; });
+    std::atomic<unsigned int> result;
     std::vector<std::future<unsigned int>> threadPool;
     threadPool.reserve(getNumBits(validPositions));
     for(int i = 0; validPositions != 0; ++i)
@@ -68,8 +68,8 @@ static unsigned int semiParallelNQueens(int n)
         task(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
-    Concurrency::parallel_for(0u, threadPool.size(), [&](unsigned int i){result.local() += threadPool[i].get();});    
-    return result.combine(std::plus<unsigned int>()) + ((columns == allOnes) ? 1 : 0);
+    Concurrency::parallel_for(0u, threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
+    return result + ((columns == allOnes) ? 1 : 0);
 }
 
 static inline unsigned int nQueens(int n)
