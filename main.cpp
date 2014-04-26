@@ -9,13 +9,13 @@ int main(int argc, char* argv[])
     VTimer timer;
     timer.setStartTick();
     const unsigned int seqResult = nQueens(BOARD_SPACE);
-    double now = timer.time_u();
+    unsigned int now = timer.time_ns();
 
-    std::cout << "Sequential NQueens of     " << BOARD_SPACE << " took: " << timer.time_u() << "\t microseconds." << std::endl;
+    std::cout << "Sequential NQueens of     " << BOARD_SPACE << " took: " << now << "\t microseconds." << std::endl;
 
     timer.setStartTick();
     const unsigned int parallelResult = semiParallelNQueens(BOARD_SPACE);
-    now = timer.time_u();
+    now = timer.time_ns();
     std::cout << "Badly parallel NQueens of " << BOARD_SPACE << " took: " << now << "\t microseconds." << std::endl;
 
     if(parallelResult == seqResult)

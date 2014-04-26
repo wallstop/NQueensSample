@@ -29,22 +29,24 @@ public:
 	void setStartTick();
 
 	// Returns time since baseTime
-	const double tick();
+	double tick();
+
+    double time_ns();
 
 	// Time in microseconds 
-	const double time_u();
+	double time_us();
 
 	// Time in milliseconds
-	const double time_ms();
+	double time_ms();
 
 	// Time in seconds
-	const double time_s();
+	double time_s();
 
 	// Time in minutes
-	const double time_m();
+	double time_m();
 
 	// Time in hours
-	const double time_h();
+	double time_h();
 
 private:
 	uint_fast64_t m_baseTime;

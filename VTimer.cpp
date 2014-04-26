@@ -14,7 +14,7 @@ inline void VTimer::setStartTick()
 	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&m_baseTime));
 }
 
-inline const double VTimer::tick()
+inline double VTimer::tick()
 {
 	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&m_currentTime));
 	return (double)m_currentTime;
@@ -25,28 +25,31 @@ inline const double VTimer::tick()
 //TODO: Add Linux headers, linux methods...
 #endif
 
-
-inline const double VTimer::time_u() 
+inline double VTimer::time_ns()
+{
+    return (tick() - m_baseTime) * 1000000000 / m_clockFrequency;
+}
+inline double VTimer::time_us() 
 {
 	return (tick() - m_baseTime) * 1000000 / m_clockFrequency;
 }
 
-inline const double VTimer::time_ms()
+inline double VTimer::time_ms()
 {
 	return (tick() - m_baseTime) * 1000 / m_clockFrequency;
 }
 
-inline const double VTimer::time_s()
+inline double VTimer::time_s()
 {
 	return (tick() - m_baseTime) / m_clockFrequency;
 }
 
-inline const double VTimer::time_m()
+inline double VTimer::time_m()
 {
 	return ((tick() - m_baseTime) / m_clockFrequency) / 60;
 }
 
-inline const double VTimer::time_h()
+inline double VTimer::time_h()
 {
 	return ((tick() - m_baseTime) / m_clockFrequency) / 360;
 }
