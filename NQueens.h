@@ -50,7 +50,7 @@ static unsigned int semiParallelNQueens(int n)
     const int leftDiagonals = 0;
     const int rightDiagonals = 0;
 
-    int validPositions = getValidPositions(allOnes, columns, leftDiagonals, rightDiagonals);
+    int validPositions = getValidPositions(allOnes, leftDiagonals, columns, rightDiagonals);
 
     /*
         This all super sucks, if this were an actual implementation I'd rely on TBB's nice parallel paradigms
@@ -65,7 +65,7 @@ static unsigned int semiParallelNQueens(int n)
         const int position = getLSB(validPositions);
         validPositions ^= position;
         threadPool.push_back(task.get_future());
-        task(allOnes, columns, leftDiagonals, rightDiagonals);
+        task(allOnes, leftDiagonals, columns, rightDiagonals);
     }
 
     Concurrency::parallel_for(0, (int)threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
