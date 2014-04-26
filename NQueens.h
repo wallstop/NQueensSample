@@ -69,10 +69,10 @@ static unsigned int semiParallelNQueens(int n)
     }
 
     Concurrency::parallel_for(0, (int)threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
-    return result;
+    return result + (columns == allOnes) ? 1 : 0;
 }
 
 static inline unsigned int nQueens(int n)
 {
-    return nQueensHelper((1 << n) -1, 0, 0, 0);
+    return nQueensHelper((1 << n) - 1, 0, 0, 0);
 }
