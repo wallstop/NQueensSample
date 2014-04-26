@@ -56,7 +56,7 @@ static unsigned int semiParallelNQueens(int n)
         This all super sucks, if this were an actual implementation I'd rely on TBB's nice parallel paradigms
         and thread pools and stuff
     */
-    std::atomic<unsigned int> result;
+    std::atomic<unsigned int> result = 0;
     std::vector<std::future<unsigned int>> threadPool;
     threadPool.reserve(getNumBits(validPositions));
     for(int i = 0; validPositions != 0; ++i)
