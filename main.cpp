@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-    static const int ITERATIONS = 12;
+    static const int ITERATIONS = 16;
     VTimer timer;
     timer.setStartTick();
     const unsigned int seqResult = nQueens(ITERATIONS);

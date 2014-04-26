@@ -65,11 +65,11 @@ static unsigned int semiParallelNQueens(int n)
         const int position = getLSB(validPositions);
         validPositions ^= position;
         threadPool.push_back(task.get_future());
-        task(allOnes, leftDiagonals, columns, rightDiagonals);
+        task(allOnes, (leftDiagonals | position) << 1, (columns | position), (rightDiagonals | position) >> 1);
     }
 
     Concurrency::parallel_for(0, (int)threadPool.size(), [&](unsigned int i){result += threadPool[i].get();});    
-    return result + (columns == allOnes) ? 1 : 0;
+    return result + ((columns == allOnes) ? 1 : 0);
 }
 
 static inline unsigned int nQueens(int n)
