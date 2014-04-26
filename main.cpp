@@ -19,10 +19,8 @@ int main(int argc, char* argv[])
     std::cout << "Badly parallel NQueens of " << ITERATIONS << " took: " << now << "\t microseconds." << std::endl;
 
     if(parallelResult == seqResult)
-        std::cout << "Sequential and parallel results are the same" << std::endl;
+        std::cout << "Sequential and parallel results are the same : " << parallelResult << std::endl;
     else
-        std::cout << "Sequential and parallel results are NOT the same. THIS IS BAD." << std::endl;
-
-    std::cin.get();
-
+        std::cout << "Sequential and parallel results are NOT the same( " << 
+            seqResult << " " << parallelResult << " ). THIS IS BAD." << std::endl;
 }

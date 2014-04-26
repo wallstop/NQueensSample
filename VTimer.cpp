@@ -17,7 +17,7 @@ inline void VTimer::setStartTick()
 inline const double VTimer::tick()
 {
 	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&m_currentTime));
-	return m_currentTime;
+	return (double)m_currentTime;
 }
 
 

@@ -1,17 +1,26 @@
-#ifndef VMETRICS_API
 
-#if defined _WIN32 || defined WIN32
-#define VMETRICS_API __declspec(dllexport)
+#pragma once 
+//#define VTIMER_LIB  // Proper dll
+
+#define VTIMER_LIB
+
+#if defined(WIN32) || defined(_WIN32)
+
+    #ifndef VTIMER_LIB
+        #define VTIMER_LIB_EXPORT __declspec(dllimport)
+    #else
+        #define VTIMER_LIB_EXPORT __declspec(dllexport)
+    #endif
+
 #else
-#define VMETRICS_API __declspec(dllimport)
-#endif
-#else
-#define VMETRICS_API_EXPORT 
+
+    #define VTIMER_LIB_EXPORT
+
 #endif
 
 #include <stdint.h>
 
-class VMETRICS_API VTimer
+class VTIMER_LIB_EXPORT VTimer
 {
 public:
 
